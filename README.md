@@ -1,2 +1,3 @@
 # stock-exchange-backend
-Backend of Stock Exchange Application [2019]
+
+`npm start` to run backend on localhost:8080

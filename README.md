@@ -8,4 +8,5 @@ To do:
 - Rethink `unused parameter next` in router methods
 - Reconsider `required` properties in `mongoose.Schema`
 - Think about `type` of userId in `articles` and `notes` schemas (`mongoose.Types.ObjectId`)
-- Add link `validation` in `article` schema
+- Add `link validation` in `article` schema
+- Delete `console.log` - especially in routes methods

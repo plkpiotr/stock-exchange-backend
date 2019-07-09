@@ -18,15 +18,11 @@ class Articles {
             article.save()
                 .then(result => {
                     console.log(result);
-                    response.status(201).json({
-                        article: article
-                    });
+                    response.status(201).json(article);
                 })
                 .catch(error => {
                     console.log(error);
-                    response.status(500).json({
-                        error: error
-                    });
+                    response.status(500).json(error);
                 });
         });
 
@@ -36,32 +32,35 @@ class Articles {
                 .exec()
                 .then(article => {
                     console.log(article);
-                    response.status(200).json({
-                        article: article
-                    });
+                    if (article) {
+                        response.status(200).json(article);
+                    } else {
+                        response.status(404).json({
+                            message: "Not found the article"
+                        });
+                    }
                 })
                 .catch(error => {
                     console.log(error);
-                    response.status(500).json({
-                        error: error
-                    });
+                    response.status(500).json(error);
                 });
         });
 
-        this.router.get('/:userId', (request, response, next) => {
+        this.router.get('/user/:userId', (request, response, next) => {
             const userId = request.params.userId;
-            Article.findByUser(userId)
+            const query = {
+                user: userId
+            };
+            Article.find(query)
                 .exec()
-                .then(article => {
-                    console.log(article);
-                    response.status(200).json(article);
+                .then(articles => {
+                    console.log(articles);
+                    response.status(200).json(articles);
                 })
                 .catch(error => {
                     console.log(error);
-                    response.status(500).json({
-                        error: error
-                    })
-                })
+                    response.status(500).json(error);
+                });
         });
 
         this.router.put('/:articleId', (request, response, next) => {

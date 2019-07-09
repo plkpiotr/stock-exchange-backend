@@ -5,4 +5,7 @@ Backend:
 To do:
 - Create `handling errors` after "sign up" implementing (4/14)
 - Think about `methods name` in `app.ts` after mongoDB configuration
-- Think about `unused parameter next` in router methods
+- Rethink `unused parameter next` in router methods
+- Reconsider `required` properties in `mongoose.Schema`
+- Think about `type` of userId in `articles` and `notes` schemas (`mongoose.Types.ObjectId`)
+- Add link `validation` in `article` schema

@@ -1,5 +1,8 @@
 {
   "watch": ["**"],
+  "env": {
+    "MONGO_ATLAS_PW": "stock-exchange"
+  },
   "ext": "ts",
   "exec": "npm start"
 }

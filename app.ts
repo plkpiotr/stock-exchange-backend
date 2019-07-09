@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
-import articleRoutes from './src/routes/article';
-import noteRoutes from './src/routes/note';
+import articleRoutes from './src/routes/articles';
+import noteRoutes from './src/routes/notes';
 
 class App {
     public app: express.Application = express();
@@ -32,8 +32,8 @@ class App {
     }
 
     private static connectWithDatabase(): void {
-        mongoose.connect('mongodb+srv://stock-exchange:stock-exchange@stock-exchange-btfeh.mongodb.net/' +
-            'test?retryWrites=true&w=majority', {
+        mongoose.connect('mongodb+srv://stock-exchange:'+ process.env.MONGO_ATLAS_PW +
+            '@stock-exchange-btfeh.mongodb.net/test?retryWrites=true&w=majority', {
             useNewUrlParser: true
         });
     }

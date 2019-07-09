@@ -15,24 +15,42 @@ class Notes {
                 user: new mongoose.Types.ObjectId()
             });
             note.save()
-                .then(result => console.log(result))
-                .catch(error => console.log(error));
-            response.status(201).json({
-                note: note
-            });
+                .then(result => {
+                    console.log(result);
+                    response.status(201).json({
+                        note: note
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({
+                        error: error
+                    });
+                });
+        });
+
+        this.router.get('/:noteId', (request, response, next) => {
+            const noteId = request.params.noteId;
+            Note.findById(noteId)
+                .exec()
+                .then(note => {
+                    console.log(note);
+                    response.status(200).json({
+                        note: note
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({
+                        error: error
+                    });
+                });
         });
 
         this.router.get('/:userId', (request, response, next) => {
             const userId = request.params.userId;
             response.status(200).json({
                 userId: userId
-            });
-        });
-
-        this.router.get('/:noteId', (request, response, next) => {
-            const noteId = request.params.noteId;
-            response.status(200).json({
-                noteId: noteId
             });
         });
 

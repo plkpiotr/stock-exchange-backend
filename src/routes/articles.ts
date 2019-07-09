@@ -16,25 +16,52 @@ class Articles {
                 user: new mongoose.Types.ObjectId()
             });
             article.save()
-                .then(result => console.log(result))
-                .catch(error => console.log(error));
-            response.status(201).json({
-                article: article
-            });
-        });
-
-        this.router.get('/:userId', (request, response, next) => {
-            const userId = request.params.userId;
-            response.status(200).json({
-                userId: userId
-            });
+                .then(result => {
+                    console.log(result);
+                    response.status(201).json({
+                        article: article
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({
+                        error: error
+                    });
+                });
         });
 
         this.router.get('/:articleId', (request, response, next) => {
             const articleId = request.params.articleId;
-            response.status(200).json({
-                articleId: articleId
-            });
+            Article.findById(articleId)
+                .exec()
+                .then(article => {
+                    console.log(article);
+                    response.status(200).json({
+                        article: article
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({
+                        error: error
+                    });
+                });
+        });
+
+        this.router.get('/:userId', (request, response, next) => {
+            const userId = request.params.userId;
+            Article.findByUser(userId)
+                .exec()
+                .then(article => {
+                    console.log(article);
+                    response.status(200).json(article);
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({
+                        error: error
+                    })
+                })
         });
 
         this.router.put('/:articleId', (request, response, next) => {

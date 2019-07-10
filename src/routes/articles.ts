@@ -55,7 +55,13 @@ class Articles {
                 .exec()
                 .then(articles => {
                     console.log(articles);
-                    response.status(200).json(articles);
+                    if (articles.length > 0) {
+                        response.status(200).json(articles);
+                    } else {
+                        response.status(404).json({
+                            message: "Not found articles for the user"
+                        });
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -70,9 +76,16 @@ class Articles {
         });
 
         this.router.delete('/:articleId', (request, response, next) => {
-            response.status(200).json({
-                message: 'DELETE /articles/{articleId}'
-            });
+            const articleId = request.params.articleId;
+            Article.remove({_id: articleId})
+                .exec()
+                .then(result => {
+                    response.status(200).json(result);
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({error});
+                });
         });
     }
 }

@@ -1,5 +1,4 @@
 import * as express from 'express';
-import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
 import articleRoutes from './src/routes/articles';
@@ -14,8 +13,6 @@ class App {
     }
 
     private configure(): void {
-        this.app.use(morgan('dev'));
-
         this.app.use(bodyParser.urlencoded({
             extended: false
         }));

@@ -54,7 +54,13 @@ class Notes {
                 .exec()
                 .then(notes => {
                     console.log(notes);
-                    response.status(200).json(notes);
+                    if (notes.length > 0) {
+                        response.status(200).json(notes);
+                    } else {
+                        response.status(404).json({
+                            message: "Not found notes for the user"
+                        });
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -69,9 +75,16 @@ class Notes {
         });
 
         this.router.delete('/:noteId', (request, response, next) => {
-            response.status(200).json({
-                message: 'DELETE /articles/{articleId}'
-            });
+            const noteId = request.params.noteId;
+            Note.remove({_id: noteId})
+                .exec()
+                .then(result => {
+                    response.status(200).json(result);
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json({error});
+                });
         });
     }
 }

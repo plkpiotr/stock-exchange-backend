@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import {Router} from 'express';
 import Note from './../models/note';
+import User from "../models/user";
 
 class Notes {
     public router: express.Router = Router();
@@ -12,7 +13,6 @@ class Notes {
                 _id: new mongoose.Types.ObjectId(),
                 title: request.body.title,
                 content: request.body.content,
-                user: new mongoose.Types.ObjectId()
             });
             note.save()
                 .then(result => {
@@ -26,9 +26,9 @@ class Notes {
         });
 
         this.router.get('/:noteId', (request, response, next) => {
-            const noteId = request.params.noteId;
-            Note.findById(noteId)
+            Note.findById(request.params.noteId)
                 .exec()
+                .select('-__v')
                 .then(note => {
                     console.log(note);
                     if (note) {
@@ -45,32 +45,32 @@ class Notes {
                 });
         });
 
-        this.router.get('/user/:userId', (request, response, next) => {
-            const userId = request.params.userId;
-            const query = {
-                user: userId
-            };
-            Note.find(query)
-                .exec()
-                .then(notes => {
-                    console.log(notes);
-                    if (notes.length > 0) {
-                        response.status(200).json(notes);
-                    } else {
-                        response.status(404).json({
-                            message: "Not found notes for the user"
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    response.status(500).json(error);
-                });
-        });
+        // this.router.get('/user/:userId', (request, response, next) => {
+        //     const userId = request.params.userId;
+        //     const query = {
+        //         user: userId
+        //     };
+        //     Note.find(query)
+        //         .select('-__v')
+        //         .exec()
+        //         .then(notes => {
+        //             console.log(notes);
+        //             if (notes.length > 0) {
+        //                 response.status(200).json(notes);
+        //             } else {
+        //                 response.status(404).json({
+        //                     message: "Not found notes for the user"
+        //                 });
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.log(error);
+        //             response.status(500).json(error);
+        //         });
+        // });
 
         this.router.put('/:noteId', (request, response, next) => {
-            const noteId = request.params.noteId;
-            Note.update({_id: noteId}, {
+            Note.update({_id: request.params.noteId}, {
                 $set: {
                     title: request.body.title,
                     content: request.body.content,
@@ -89,15 +89,26 @@ class Notes {
         });
 
         this.router.delete('/:noteId', (request, response, next) => {
-            const noteId = request.params.noteId;
-            Note.remove({_id: noteId})
+            Note.find({_id: request.params.noteId})
                 .exec()
-                .then(result => {
-                    response.status(200).json(result);
-                })
-                .catch(error => {
-                    console.log(error);
-                    response.status(500).json({error});
+                .then(note => {
+                    if (note.length === 0) {
+                        return response.status(404).json({
+                            message: 'This note does not exists'
+                        });
+                    } else {
+                        Note.remove({_id: request.params.noteId})
+                            .exec()
+                            .then(result => {
+                                response.status(200).json({
+                                    message: 'Note deleted'
+                                });
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                response.status(500).json({error});
+                            });
+                    }
                 });
         });
     }

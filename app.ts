@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
 import articleRoutes from './src/routes/articles';
 import noteRoutes from './src/routes/notes';
+import userRoutes from './src/routes/users';
 
 class App {
     public app: express.Application = express();
@@ -26,12 +27,14 @@ class App {
 
         this.app.use('/articles', articleRoutes);
         this.app.use('/notes', noteRoutes);
+        this.app.use('/users', userRoutes);
     }
 
     private static connectWithDatabase(): void {
         mongoose.connect('mongodb+srv://stock-exchange:'+ process.env.MONGO_ATLAS_PW +
             '@stock-exchange-btfeh.mongodb.net/test?retryWrites=true&w=majority', {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useCreateIndex: true
         });
     }
 }

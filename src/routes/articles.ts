@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import {Router} from 'express';
 import Article from './../models/article';
+import Note from "../models/note";
 
 class Articles {
     public router: express.Router = Router();
@@ -13,7 +14,6 @@ class Articles {
                 title: request.body.title,
                 description: request.body.description,
                 link: request.body.link,
-                user: new mongoose.Types.ObjectId()
             });
             article.save()
                 .then(result => {
@@ -27,8 +27,8 @@ class Articles {
         });
 
         this.router.get('/:articleId', (request, response, next) => {
-            const articleId = request.params.articleId;
-            Article.findById(articleId)
+            Article.findById(request.params.articleId)
+                .select('-__v')
                 .exec()
                 .then(article => {
                     console.log(article);
@@ -46,32 +46,32 @@ class Articles {
                 });
         });
 
-        this.router.get('/user/:userId', (request, response, next) => {
-            const userId = request.params.userId;
-            const query = {
-                user: userId
-            };
-            Article.find(query)
-                .exec()
-                .then(articles => {
-                    console.log(articles);
-                    if (articles.length > 0) {
-                        response.status(200).json(articles);
-                    } else {
-                        response.status(404).json({
-                            message: "Not found articles for the user"
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    response.status(500).json(error);
-                });
-        });
+        // this.router.get('/user/:userId', (request, response, next) => {
+        //     const userId = request.params.userId;
+        //     const query = {
+        //         user: userId
+        //     };
+        //     Article.find(query)
+        //         .select('-__v')
+        //         .exec()
+        //         .then(articles => {
+        //             console.log(articles);
+        //             if (articles.length > 0) {
+        //                 response.status(200).json(articles);
+        //             } else {
+        //                 response.status(404).json({
+        //                     message: "Not found articles for the user"
+        //                 });
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.log(error);
+        //             response.status(500).json(error);
+        //         });
+        // });
 
         this.router.put('/:articleId', (request, response, next) => {
-            const articleId = request.params.articleId;
-            Article.update({_id: articleId}, {
+            Article.update({_id: request.params.articleId}, {
                 $set: {
                     title: request.body.title,
                     description: request.body.description,
@@ -91,15 +91,26 @@ class Articles {
         });
 
         this.router.delete('/:articleId', (request, response, next) => {
-            const articleId = request.params.articleId;
-            Article.remove({_id: articleId})
+            Article.find({_id: request.params.articleId})
                 .exec()
-                .then(result => {
-                    response.status(200).json(result);
-                })
-                .catch(error => {
-                    console.log(error);
-                    response.status(500).json({error});
+                .then(article => {
+                    if (article.length === 0) {
+                        return response.status(404).json({
+                            message: 'This article does not exists'
+                        });
+                    } else {
+                        Article.remove({_id: request.params.articleId})
+                            .exec()
+                            .then(result => {
+                                response.status(200).json({
+                                    message: 'Article deleted'
+                                });
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                response.status(500).json({error});
+                            });
+                    }
                 });
         });
     }

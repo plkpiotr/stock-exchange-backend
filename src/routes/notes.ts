@@ -69,9 +69,23 @@ class Notes {
         });
 
         this.router.put('/:noteId', (request, response, next) => {
-            response.status(200).json({
-                message: 'PUT /notes/{noteId}'
-            });
+            const noteId = request.params.noteId;
+            Note.update({_id: noteId}, {
+                $set: {
+                    title: request.body.title,
+                    content: request.body.content,
+                    modified: Date.now()
+                }
+            })
+                .exec()
+                .then(result => {
+                    console.log(result);
+                    response.status(200).json(result);
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json(error);
+                })
         });
 
         this.router.delete('/:noteId', (request, response, next) => {

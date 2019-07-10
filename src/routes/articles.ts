@@ -70,9 +70,24 @@ class Articles {
         });
 
         this.router.put('/:articleId', (request, response, next) => {
-            response.status(200).json({
-                message: 'PUT /articles/{articleId}'
-            });
+            const articleId = request.params.articleId;
+            Article.update({_id: articleId}, {
+                $set: {
+                    title: request.body.title,
+                    description: request.body.description,
+                    link: request.body.link,
+                    modified: Date.now()
+                }
+            })
+                .exec()
+                .then(result => {
+                    console.log(result);
+                    response.status(200).json(result);
+                })
+                .catch(error => {
+                    console.log(error);
+                    response.status(500).json(error);
+                });
         });
 
         this.router.delete('/:articleId', (request, response, next) => {

@@ -4,8 +4,9 @@ Backend:
 
 To do:
 - Create `handling errors` after "sign up" implementing (4/14)
-- Think about `methods name` in `app.ts` after mongoDB configuration
 - Rethink `unused parameter next` in router methods
-- Think about `type` of userId in `articles` and `notes` schemas (`mongoose.Types.ObjectId`)
-- Add `link validation` in `article` schema
-- Move `articles` to `user` (OneToMany)
+- Think about `type` of userId in `articles` and `notes` schemas
+- Check out `deleting` articles and notes with deleting user
+- Create `PUT` method for user
+- Create history of transactions (all methods)
+- Add `find()` method in PUT methods

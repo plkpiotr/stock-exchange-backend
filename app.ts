@@ -10,7 +10,7 @@ class App {
 
     public constructor() {
         this.configure();
-        App.connectWithDatabase();
+        App.configureDatabase();
     }
 
     private configure(): void {
@@ -30,7 +30,7 @@ class App {
         this.app.use('/users', userRoutes);
     }
 
-    private static connectWithDatabase(): void {
+    private static configureDatabase(): void {
         mongoose.connect('mongodb+srv://stock-exchange:'+ process.env.MONGO_ATLAS_PW +
             '@stock-exchange-btfeh.mongodb.net/test?retryWrites=true&w=majority', {
             useNewUrlParser: true,

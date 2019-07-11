@@ -2,13 +2,14 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import {Router} from 'express';
 import Article from './../models/article';
-import Note from "../models/note";
+import User from './../models/user';
+import authenticator from '../middleware/authenticator';
 
 class Articles {
     public router: express.Router = Router();
 
     public constructor() {
-        this.router.post('/', (request, response, next) => {
+        this.router.post('/', authenticator, (request, response, next) => {
             const article = new Article({
                 _id: new mongoose.Types.ObjectId(),
                 title: request.body.title,
@@ -26,7 +27,7 @@ class Articles {
                 });
         });
 
-        this.router.get('/:articleId', (request, response, next) => {
+        this.router.get('/:articleId', authenticator, (request, response, next) => {
             Article.findById(request.params.articleId)
                 .select('-__v')
                 .exec()
@@ -70,7 +71,7 @@ class Articles {
         //         });
         // });
 
-        this.router.put('/:articleId', (request, response, next) => {
+        this.router.put('/:articleId', authenticator, (request, response, next) => {
             Article.update({_id: request.params.articleId}, {
                 $set: {
                     title: request.body.title,
@@ -99,7 +100,7 @@ class Articles {
                             message: 'This article does not exists'
                         });
                     } else {
-                        Article.remove({_id: request.params.articleId})
+                        Article.deleteOne({_id: request.params.articleId})
                             .exec()
                             .then(result => {
                                 response.status(200).json({

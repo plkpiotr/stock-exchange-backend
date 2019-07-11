@@ -2,13 +2,14 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import {Router} from 'express';
 import Note from './../models/note';
-import User from "../models/user";
+import User from './../models/user';
+import authenticator from '../middleware/authenticator'
 
 class Notes {
     public router: express.Router = Router();
 
     public constructor() {
-        this.router.post('/', (request, response, next) => {
+        this.router.post('/', authenticator, (request, response, next) => {
             const note = new Note({
                 _id: new mongoose.Types.ObjectId(),
                 title: request.body.title,
@@ -25,7 +26,7 @@ class Notes {
                 });
         });
 
-        this.router.get('/:noteId', (request, response, next) => {
+        this.router.get('/:noteId', authenticator, (request, response, next) => {
             Note.findById(request.params.noteId)
                 .exec()
                 .select('-__v')
@@ -69,7 +70,7 @@ class Notes {
         //         });
         // });
 
-        this.router.put('/:noteId', (request, response, next) => {
+        this.router.put('/:noteId', authenticator, (request, response, next) => {
             Note.update({_id: request.params.noteId}, {
                 $set: {
                     title: request.body.title,
@@ -88,7 +89,7 @@ class Notes {
                 })
         });
 
-        this.router.delete('/:noteId', (request, response, next) => {
+        this.router.delete('/:noteId', authenticator, (request, response, next) => {
             Note.find({_id: request.params.noteId})
                 .exec()
                 .then(note => {
@@ -97,7 +98,7 @@ class Notes {
                             message: 'This note does not exists'
                         });
                     } else {
-                        Note.remove({_id: request.params.noteId})
+                        Note.deleteOne({_id: request.params.noteId})
                             .exec()
                             .then(result => {
                                 response.status(200).json({

@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import {Router} from 'express';
 import User from './../models/user';
+import authenticator from '../middleware/authenticator';
 
 class Users {
     public router: express.Router = Router();
@@ -52,7 +53,7 @@ class Users {
                 .then(user => {
                     if (user.length < 1) {
                         return response.status(404).json({
-                            message: 'User does not exists'
+                            message: 'User doesn\'t exists'
                         });
                     }
                     bcrypt.compare(request.body.password, user[0].password, (error, result) => {
@@ -65,7 +66,7 @@ class Users {
                             const token = jwt.sign({
                                 userId: user[0]._id
                             }, process.env.JWT_KEY, {
-                                expiresIn: '3h'
+                                expiresIn: '2h'
                             });
                             return response.status(200).json({
                                 message: 'Authorization successful',
@@ -85,16 +86,16 @@ class Users {
                 });
         });
 
-        this.router.delete('/:userId', (request, response, next) => {
+        this.router.delete('/:userId', authenticator, (request, response, next) => {
             User.find({_id: request.params.userId})
                 .exec()
                 .then(user => {
                     if (user.length === 0) {
                         return response.status(404).json({
-                            message: 'This user does not exists'
+                            message: 'This user doesn\'t exists'
                         });
                     } else {
-                        User.remove({_id: request.params.userId})
+                        User.deleteOne({_id: request.params.userId})
                             .exec()
                             .then(result => {
                                 response.status(200).json({

@@ -86,6 +86,41 @@ class Users {
                 });
         });
 
+        this.router.put('/:userId', authenticator, (request, response, next) => {
+            User.find({_id: request.params.userId})
+                .exec()
+                .then(user => {
+                    if (user.length === 0) {
+                        return response.status(404).json({
+                            message: 'This user doesn\'t exists'
+                        });
+                    } else {
+                        bcrypt.hash(request.body.password, 10, (error, hash) => {
+                            if (error) {
+                                return response.status(500).json({error});
+                            } else {
+                                User.update({_id: request.params.articleId}, {
+                                    $set: {
+                                        email: request.body.email,
+                                        password: hash,
+                                        name: request.body.name
+                                    }
+                                })
+                                    .exec()
+                                    .then(result => {
+                                        console.log(result);
+                                        response.status(200).json(result);
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        response.status(500).json(error);
+                                    });
+                            }
+                        });
+                    }
+                })
+        });
+
         this.router.delete('/:userId', authenticator, (request, response, next) => {
             User.find({_id: request.params.userId})
                 .exec()

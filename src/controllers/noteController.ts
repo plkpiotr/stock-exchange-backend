@@ -13,7 +13,6 @@ class NoteController {
             .select('-__v')
             .exec()
             .then(note => {
-                console.log(note);
                 if (note) {
                     response.status(200).json(note);
                 } else {
@@ -23,7 +22,6 @@ class NoteController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -43,7 +41,6 @@ class NoteController {
             .select('-__v')
             .exec()
             .then(notes => {
-                console.log(notes);
                 if (notes.length > 0) {
                     response.status(200).json(notes);
                 } else {
@@ -53,7 +50,6 @@ class NoteController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -68,12 +64,10 @@ class NoteController {
             userId: request.userData._id
         });
         note.save()
-            .then(result => {
-                console.log(result);
+            .then(() => {
                 response.status(201).json(note);
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -101,13 +95,11 @@ class NoteController {
                     })
                         .exec()
                         .then(result => {
-                            console.log(result);
                             response.status(200).json(result);
                         })
-                        .catch(error => {
-                            console.log(error);
-                            response.status(500).json(error);
-                        });
+                        .catch(error =>
+                            response.status(500).json(error)
+                        );
                 }
             });
     };
@@ -128,13 +120,12 @@ class NoteController {
                 } else {
                     Note.deleteOne({_id: request.params.noteId})
                         .exec()
-                        .then(result => {
+                        .then(() => {
                             response.status(200).json({
                                 message: 'Note deleted'
                             });
                         })
                         .catch(error => {
-                            console.log(error);
                             response.status(500).json({error});
                         });
                 }

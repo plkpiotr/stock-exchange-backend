@@ -24,13 +24,12 @@ class UserController {
                                 name: request.body.name
                             });
                             user.save()
-                                .then(result => {
+                                .then(() => {
                                     response.status(201).json({
                                         message: 'User created',
                                     });
                                 })
                                 .catch(error => {
-                                    console.log(error);
                                     response.status(500).json({
                                         error: error
                                     });
@@ -73,10 +72,7 @@ class UserController {
                 })
             })
             .catch(error => {
-                console.log(error);
-                response.status(500).json({
-                    error: error
-                });
+                response.status(500).json(error);
             });
     };
 
@@ -102,11 +98,9 @@ class UserController {
                             })
                                 .exec()
                                 .then(result => {
-                                    console.log(result);
                                     response.status(200).json(result);
                                 })
                                 .catch(error => {
-                                    console.log(error);
                                     response.status(500).json(error);
                                 });
                         }
@@ -126,13 +120,12 @@ class UserController {
                 } else {
                     User.deleteOne({_id: request.params.userId})
                         .exec()
-                        .then(result => {
+                        .then(() => {
                             response.status(200).json({
                                 message: 'User deleted'
                             });
                         })
                         .catch(error => {
-                            console.log(error);
                             response.status(500).json({error});
                         });
                 }

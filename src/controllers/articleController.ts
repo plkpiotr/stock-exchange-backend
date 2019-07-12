@@ -13,7 +13,6 @@ class ArticleController {
             .select('-__v')
             .exec()
             .then(article => {
-                console.log(article);
                 if (article) {
                     response.status(200).json(article);
                 } else {
@@ -23,7 +22,6 @@ class ArticleController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -43,7 +41,6 @@ class ArticleController {
             .select('-__v')
             .exec()
             .then(articles => {
-                console.log(articles);
                 if (articles.length > 0) {
                     response.status(200).json(articles);
                 } else {
@@ -53,7 +50,6 @@ class ArticleController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -69,12 +65,10 @@ class ArticleController {
             userId: request.userData._id
         });
         article.save()
-            .then(result => {
-                console.log(result);
+            .then(() => {
                 response.status(201).json(article);
             })
             .catch(error => {
-                console.log(error);
                 response.status(500).json(error);
             });
     };
@@ -103,11 +97,9 @@ class ArticleController {
                     })
                         .exec()
                         .then(result => {
-                            console.log(result);
                             response.status(200).json(result);
                         })
                         .catch(error => {
-                            console.log(error);
                             response.status(500).json(error);
                         });
                 }
@@ -130,13 +122,12 @@ class ArticleController {
                 } else {
                     Article.deleteOne({_id: request.params.articleId})
                         .exec()
-                        .then(result => {
+                        .then(() => {
                             response.status(200).json({
                                 message: 'Article deleted'
                             });
                         })
                         .catch(error => {
-                            console.log(error);
                             response.status(500).json({error});
                         });
                 }

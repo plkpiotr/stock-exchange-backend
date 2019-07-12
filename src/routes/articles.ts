@@ -9,6 +9,8 @@ class Articles {
     public constructor() {
         this.router.get('/:articleId', authenticator, ArticleController.getArticleById);
 
+        this.router.get('/user/:userId', authenticator, ArticleController.getArticlesByUserId);
+
         this.router.post('/', authenticator, ArticleController.addArticle);
 
         this.router.put('/:articleId', authenticator, ArticleController.editArticle);

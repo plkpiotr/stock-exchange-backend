@@ -3,8 +3,13 @@ import * as jwt from 'jsonwebtoken';
 import Note from '../models/note';
 
 class NoteController {
-    public getNoteById = (request, response ,next) => {
-        Note.findById(request.params.noteId)
+    public getNoteById = (request, response) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Note.find({
+            _id: request.params.noteId,
+            userId: request.userData._id
+        })
             .select('-__v')
             .exec()
             .then(note => {
@@ -23,33 +28,37 @@ class NoteController {
             });
     };
 
-    public getNotesByUserId = (request, response ,next) => {
-        // this.router.get('/user/:userId', (request, response, next) => {
-        //     const userId = request.params.userId;
-        //     const query = {
-        //         user: userId
-        //     };
-        //     Note.find(query)
-        //         .select('-__v')
-        //         .exec()
-        //         .then(notes => {
-        //             console.log(notes);
-        //             if (notes.length > 0) {
-        //                 response.status(200).json(notes);
-        //             } else {
-        //                 response.status(404).json({
-        //                     message: "Not found notes for the user"
-        //                 });
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //             response.status(500).json(error);
-        //         });
-        // });
+    public getNotesByUserId = (request, response) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        if (request.userData._id !== request.params.userId) {
+            return response.status(401).json({
+                message: 'You don\'t have access to this resource'
+            });
+        }
+        const query = {
+            userId: request.params.userId
+        };
+        Note.find(query)
+            .select('-__v')
+            .exec()
+            .then(notes => {
+                console.log(notes);
+                if (notes.length > 0) {
+                    response.status(200).json(notes);
+                } else {
+                    response.status(404).json({
+                        message: "Not found notes for the user"
+                    });
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                response.status(500).json(error);
+            });
     };
 
-    public addNote = (request, response ,next) => {
+    public addNote = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const note = new Note({
@@ -69,7 +78,7 @@ class NoteController {
             });
     };
 
-    public editNote = (request, response ,next) => {
+    public editNote = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
@@ -103,7 +112,7 @@ class NoteController {
             });
     };
 
-    public removeNote = (request, response ,next) => {
+    public removeNote = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({

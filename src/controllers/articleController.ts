@@ -3,8 +3,13 @@ import * as jwt from 'jsonwebtoken';
 import Article from '../models/article';
 
 class ArticleController {
-    public getArticleById = (request, response, next) => {
-        Article.findById(request.params.articleId)
+    public getArticleById = (request, response) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Article.find({
+            _id: request.params.articleId,
+            userId: request.userData._id
+        })
             .select('-__v')
             .exec()
             .then(article => {
@@ -23,33 +28,37 @@ class ArticleController {
             });
     };
 
-    public getArticlesByUserId = (request, response, next) => {
-        // this.router.get('/user/:userId', (request, response, next) => {
-        //     const userId = request.params.userId;
-        //     const query = {
-        //         user: userId
-        //     };
-        //     Article.find(query)
-        //         .select('-__v')
-        //         .exec()
-        //         .then(articles => {
-        //             console.log(articles);
-        //             if (articles.length > 0) {
-        //                 response.status(200).json(articles);
-        //             } else {
-        //                 response.status(404).json({
-        //                     message: "Not found articles for the user"
-        //                 });
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //             response.status(500).json(error);
-        //         });
-        // });
+    public getArticlesByUserId = (request, response) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        if (request.userData._id !== request.params.userId) {
+            return response.status(401).json({
+                message: 'You don\'t have access to this resource'
+            });
+        }
+        const query = {
+            userId: request.params.userId
+        };
+        Article.find(query)
+            .select('-__v')
+            .exec()
+            .then(articles => {
+                console.log(articles);
+                if (articles.length > 0) {
+                    response.status(200).json(articles);
+                } else {
+                    response.status(404).json({
+                        message: "Not found articles for the user"
+                    });
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                response.status(500).json(error);
+            });
     };
 
-    public addArticle = (request, response, next) => {
+    public addArticle = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const article = new Article({
@@ -70,7 +79,7 @@ class ArticleController {
             });
     };
 
-    public editArticle = (request, response, next) => {
+    public editArticle = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({
@@ -105,7 +114,7 @@ class ArticleController {
             });
     };
 
-    public removeArticle = (request, response, next) => {
+    public removeArticle = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({

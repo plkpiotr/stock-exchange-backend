@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import User from '../models/user';
 
 class UserController {
-    public register = (request, response, next) => {
+    public register = (request, response) => {
         User.find({email: request.body.email})
             .exec()
             .then(user => {
@@ -41,7 +41,7 @@ class UserController {
             });
     };
 
-    public login = (request, response, next) => {
+    public login = (request, response) => {
         User.find({email: request.body.email})
             .exec()
             .then(user => {
@@ -80,7 +80,7 @@ class UserController {
             });
     };
 
-    public editUser = (request, response ,next) => {
+    public editUser = (request, response) => {
         User.find({_id: request.params.userId})
             .exec()
             .then(user => {
@@ -115,7 +115,7 @@ class UserController {
             });
     };
 
-    public removeUser = (request, response ,next) => {
+    public removeUser = (request, response) => {
         User.find({_id: request.params.userId})
             .exec()
             .then(user => {

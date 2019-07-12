@@ -1,23 +1,23 @@
 import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
-import Article from '../models/article';
+import Transaction from '../models/transaction';
 
-class ArticleController {
-    public getArticleById = (request, response) => {
+class TransactionController {
+    public getTransactionById = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Article.find({
-            _id: request.params.articleId,
+        Transaction.find({
+            _id: request.params.transactionId,
             userId: request.userData._id
         })
             .select('-__v')
             .exec()
-            .then(article => {
-                if (article) {
-                    response.status(200).json(article);
+            .then(transaction => {
+                if (transaction) {
+                    response.status(200).json(transaction);
                 } else {
                     response.status(404).json({
-                        message: "Such article doesn\'t exists"
+                        message: "Such transaction doesn\'t exists"
                     });
                 }
             })
@@ -26,7 +26,7 @@ class ArticleController {
             });
     };
 
-    public getArticlesByUserId = (request, response) => {
+    public getTransactionsByUserId = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         if (request.userData._id !== request.params.userId) {
@@ -37,15 +37,15 @@ class ArticleController {
         const query = {
             userId: request.params.userId
         };
-        Article.find(query)
+        Transaction.find(query)
             .select('-__v')
             .exec()
-            .then(articles => {
-                if (articles.length > 0) {
-                    response.status(200).json(articles);
+            .then(transaction => {
+                if (transaction.length > 0) {
+                    response.status(200).json(transaction);
                 } else {
                     response.status(404).json({
-                        message: "Not found any articles"
+                        message: 'Not found any transactions'
                     });
                 }
             })
@@ -54,44 +54,46 @@ class ArticleController {
             });
     };
 
-    public addArticle = (request, response) => {
+    public addTransaction = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        const article = new Article({
+        const transaction = new Transaction({
             _id: new mongoose.Types.ObjectId(),
-            title: request.body.title,
-            description: request.body.description,
-            link: request.body.link,
+            datePurchase: request.body.datePurchase,
+            pricePurchase: request.body.pricePurchase,
+            dateSale: request.body.dateSale,
+            priceSale: request.body.priceSale,
             userId: request.userData._id
         });
-        article.save()
+        transaction.save()
             .then(() => {
-                response.status(201).json(article);
+                response.status(201).json(transaction)
             })
             .catch(error => {
                 response.status(500).json(error);
             });
     };
 
-    public editArticle = (request, response) => {
+    public editTransaction = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Article.find({
-            _id: request.params.articleId,
+        Transaction.find({
+            _id: request.params.transactionId,
             userId: request.userData._id
         })
             .exec()
-            .then(article => {
-                if (article.length === 0) {
+            .then(transaction => {
+                if (transaction.length === 0) {
                     return response.status(404).json({
-                        message: 'Such article doesn\'t exists'
+                        message: 'Such transaction doesn\'t exists'
                     });
                 } else {
-                    Article.update({_id: request.params.articleId}, {
+                    Transaction.update({_id: request.params.transactionId}, {
                         $set: {
-                            title: request.body.title,
-                            description: request.body.description,
-                            link: request.body.link,
+                            datePurchase: request.body.datePurchase,
+                            pricePurchase: request.body.pricePurchase,
+                            dateSale: request.body.dateSale,
+                            priceSale: request.body.priceSale,
                             modified: Date.now()
                         }
                     })
@@ -106,25 +108,25 @@ class ArticleController {
             });
     };
 
-    public removeArticle = (request, response) => {
+    public removeTransaction = (request, response) => {
         const token = request.headers.authorization.split(" ")[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Article.find({
-            _id: request.params.articleId,
+        Transaction.find({
+            _id: request.params.transactionId,
             userId: request.userData._id
         })
             .exec()
-            .then(article => {
-                if (article.length === 0) {
+            .then(transaction => {
+                if (transaction.length === 0) {
                     return response.status(404).json({
-                        message: 'Such article doesn\'t exists'
+                        message: 'Such transaction doesn\'t exists'
                     });
                 } else {
-                    Article.deleteOne({_id: request.params.articleId})
+                    Transaction.deleteOne({_id: request.params.transactionId})
                         .exec()
                         .then(() => {
                             response.status(200).json({
-                                message: 'Article deleted'
+                                message: 'Transaction deleted'
                             });
                         })
                         .catch(error => {
@@ -135,4 +137,4 @@ class ArticleController {
     };
 }
 
-export default new ArticleController();
+export default new TransactionController();

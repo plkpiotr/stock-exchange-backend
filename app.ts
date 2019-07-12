@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
 import articleRoutes from './src/routes/articles';
 import noteRoutes from './src/routes/notes';
+import transactionRoutes from './src/routes/transactions';
 import userRoutes from './src/routes/users';
 
 class App {
@@ -27,6 +28,7 @@ class App {
 
         this.app.use('/articles', articleRoutes);
         this.app.use('/notes', noteRoutes);
+        this.app.use('/transactions', transactionRoutes);
         this.app.use('/users', userRoutes);
     }
 

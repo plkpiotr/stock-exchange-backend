@@ -10,7 +10,7 @@ class UserController {
             .then(user => {
                 if (user.length >= 1) {
                     return response.status(409).json({
-                        message: "This email has already exists"
+                        message: "Such email has already exists"
                     });
                 } else {
                     bcrypt.hash(request.body.password, 10, (error, hash) => {
@@ -46,7 +46,7 @@ class UserController {
             .then(user => {
                 if (user.length < 1) {
                     return response.status(404).json({
-                        message: 'User doesn\'t exists'
+                        message: 'Such user doesn\'t exists'
                     });
                 }
                 bcrypt.compare(request.body.password, user[0].password, (error, result) => {
@@ -82,7 +82,7 @@ class UserController {
             .then(user => {
                 if (user.length === 0) {
                     return response.status(404).json({
-                        message: 'This user doesn\'t exists'
+                        message: 'Such user doesn\'t exists'
                     });
                 } else {
                     bcrypt.hash(request.body.password, 10, (error, hash) => {
@@ -115,7 +115,7 @@ class UserController {
             .then(user => {
                 if (user.length === 0) {
                     return response.status(404).json({
-                        message: 'This user doesn\'t exists'
+                        message: 'Such user doesn\'t exists'
                     });
                 } else {
                     User.deleteOne({_id: request.params.userId})

@@ -17,7 +17,7 @@ class NoteController {
                     response.status(200).json(note);
                 } else {
                     response.status(404).json({
-                        message: "Not found the note"
+                        message: "Such note doesn\'t exists"
                     });
                 }
             })
@@ -45,7 +45,7 @@ class NoteController {
                     response.status(200).json(notes);
                 } else {
                     response.status(404).json({
-                        message: "Not found notes for the user"
+                        message: "Not found any notes"
                     });
                 }
             })
@@ -83,7 +83,7 @@ class NoteController {
             .then(note => {
                 if (note.length === 0) {
                     return response.status(404).json({
-                        message: 'This note doesn\'t exists'
+                        message: 'Such note doesn\'t exists'
                     });
                 } else {
                     Note.update({_id: request.params.noteId}, {
@@ -115,7 +115,7 @@ class NoteController {
             .then(note => {
                 if (note.length === 0) {
                     return response.status(404).json({
-                        message: 'This note doesn\'t exists'
+                        message: 'Such note doesn\'t exists'
                     });
                 } else {
                     Note.deleteOne({_id: request.params.noteId})

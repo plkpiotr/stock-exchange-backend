@@ -1,7 +1,7 @@
 import * as express from 'express';
 import {Router} from 'express';
 import authenticator from '../middleware/authenticator';
-import NoteController from './../controllers/noteController';
+import NoteController from '../controllers/noteController';
 
 class Notes {
     public router: express.Router = Router();

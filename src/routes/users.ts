@@ -1,7 +1,7 @@
 import * as express from 'express';
 import {Router} from 'express';
 import authenticator from '../middleware/authenticator';
-import UserController from './../controllers/userController';
+import UserController from '../controllers/userController';
 
 class Users {
     public router: express.Router = Router();

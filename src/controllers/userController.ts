@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as mongoose from 'mongoose';
 import {jwt} from 'jsonwebtoken';
-import User from './../models/user';
+import User from '../models/user';
 
 class UserController {
     public register = (request, response, next) => {

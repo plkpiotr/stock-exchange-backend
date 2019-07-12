@@ -4,7 +4,7 @@ import Article from '../models/article';
 
 class ArticleController {
     public getArticleById = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({
             _id: request.params.articleId,
@@ -17,7 +17,7 @@ class ArticleController {
                     response.status(200).json(article);
                 } else {
                     response.status(404).json({
-                        message: "Such article doesn\'t exists"
+                        message: 'Such article doesn\'t exists'
                     });
                 }
             })
@@ -27,7 +27,7 @@ class ArticleController {
     };
 
     public getArticlesByUserId = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         if (request.userData._id !== request.params.userId) {
             return response.status(401).json({
@@ -45,7 +45,7 @@ class ArticleController {
                     response.status(200).json(articles);
                 } else {
                     response.status(404).json({
-                        message: "Not found any articles"
+                        message: 'Not found any articles'
                     });
                 }
             })
@@ -55,7 +55,7 @@ class ArticleController {
     };
 
     public addArticle = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const article = new Article({
             _id: new mongoose.Types.ObjectId(),
@@ -74,7 +74,7 @@ class ArticleController {
     };
 
     public editArticle = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({
             _id: request.params.articleId,
@@ -107,7 +107,7 @@ class ArticleController {
     };
 
     public removeArticle = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({
             _id: request.params.articleId,

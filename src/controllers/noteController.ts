@@ -4,7 +4,7 @@ import Note from '../models/note';
 
 class NoteController {
     public getNoteById = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,
@@ -17,7 +17,7 @@ class NoteController {
                     response.status(200).json(note);
                 } else {
                     response.status(404).json({
-                        message: "Such note doesn\'t exists"
+                        message: 'Such note doesn\'t exists'
                     });
                 }
             })
@@ -27,7 +27,7 @@ class NoteController {
     };
 
     public getNotesByUserId = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         if (request.userData._id !== request.params.userId) {
             return response.status(401).json({
@@ -45,7 +45,7 @@ class NoteController {
                     response.status(200).json(notes);
                 } else {
                     response.status(404).json({
-                        message: "Not found any notes"
+                        message: 'Not found any notes'
                     });
                 }
             })
@@ -55,7 +55,7 @@ class NoteController {
     };
 
     public addNote = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const note = new Note({
             _id: new mongoose.Types.ObjectId(),
@@ -73,7 +73,7 @@ class NoteController {
     };
 
     public editNote = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,
@@ -105,7 +105,7 @@ class NoteController {
     };
 
     public removeNote = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,

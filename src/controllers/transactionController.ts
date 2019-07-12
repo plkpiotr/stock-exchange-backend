@@ -4,7 +4,7 @@ import Transaction from '../models/transaction';
 
 class TransactionController {
     public getTransactionById = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.find({
             _id: request.params.transactionId,
@@ -17,7 +17,7 @@ class TransactionController {
                     response.status(200).json(transaction);
                 } else {
                     response.status(404).json({
-                        message: "Such transaction doesn\'t exists"
+                        message: 'Such transaction doesn\'t exists'
                     });
                 }
             })
@@ -27,7 +27,7 @@ class TransactionController {
     };
 
     public getTransactionsByUserId = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         if (request.userData._id !== request.params.userId) {
             return response.status(401).json({
@@ -55,7 +55,7 @@ class TransactionController {
     };
 
     public addTransaction = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const transaction = new Transaction({
             _id: new mongoose.Types.ObjectId(),
@@ -75,7 +75,7 @@ class TransactionController {
     };
 
     public editTransaction = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.find({
             _id: request.params.transactionId,
@@ -109,7 +109,7 @@ class TransactionController {
     };
 
     public removeTransaction = (request, response) => {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.find({
             _id: request.params.transactionId,

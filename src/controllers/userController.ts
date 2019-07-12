@@ -10,7 +10,7 @@ class UserController {
             .then(user => {
                 if (user.length >= 1) {
                     return response.status(409).json({
-                        message: "Such email has already exists"
+                        message: 'Such email has already exists'
                     });
                 } else {
                     bcrypt.hash(request.body.password, 10, (error, hash) => {

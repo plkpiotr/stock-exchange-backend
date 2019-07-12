@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 
 export default (request, response, next) => {
     try {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         next();
     } catch (error) {

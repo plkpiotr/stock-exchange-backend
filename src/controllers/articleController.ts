@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose';
+import * as jwt from 'jsonwebtoken';
 import Article from '../models/article';
 
 class ArticleController {
-    public getArticleById = (request, response ,next) => {
+    public getArticleById = (request, response, next) => {
         Article.findById(request.params.articleId)
             .select('-__v')
             .exec()
@@ -22,7 +23,7 @@ class ArticleController {
             });
     };
 
-    public getArticlesByUserId = (request, response ,next) => {
+    public getArticlesByUserId = (request, response, next) => {
         // this.router.get('/user/:userId', (request, response, next) => {
         //     const userId = request.params.userId;
         //     const query = {
@@ -48,12 +49,15 @@ class ArticleController {
         // });
     };
 
-    public addArticle = (request, response ,next) => {
+    public addArticle = (request, response, next) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
         const article = new Article({
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
             description: request.body.description,
             link: request.body.link,
+            userId: request.userData._id
         });
         article.save()
             .then(result => {
@@ -66,8 +70,13 @@ class ArticleController {
             });
     };
 
-    public editArticle = (request, response ,next) => {
-        Article.find({_id: request.params.articleId})
+    public editArticle = (request, response, next) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Article.find({
+            _id: request.params.articleId,
+            userId: request.userData._id
+        })
             .exec()
             .then(article => {
                 if (article.length === 0) {
@@ -96,8 +105,13 @@ class ArticleController {
             });
     };
 
-    public removeArticle = (request, response ,next) => {
-        Article.find({_id: request.params.articleId})
+    public removeArticle = (request, response, next) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Article.find({
+            _id: request.params.articleId,
+            userId: request.userData._id
+        })
             .exec()
             .then(article => {
                 if (article.length === 0) {

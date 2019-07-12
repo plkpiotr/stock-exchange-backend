@@ -11,19 +11,7 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    name: {
-        type: String,
-        required: true
     }
-    // article: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Article'
-    // },
-    // note: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Note'
-    // }
 });
 
 export default mongoose.model('User', userSchema);

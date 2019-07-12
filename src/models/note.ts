@@ -15,7 +15,7 @@ const noteSchema = mongoose.Schema({
         default: Date.now
     },
     modified: Date,
-    user: mongoose.Schema.Types.ObjectId
+    userId: mongoose.Schema.Types.ObjectId
 });
 
 export default mongoose.model('Note', noteSchema);

@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import * as mongoose from 'mongoose';
-import {jwt} from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import User from '../models/user';
 
 class UserController {
@@ -58,7 +58,7 @@ class UserController {
                     }
                     if (result) {
                         const token = jwt.sign({
-                            userId: user[0]._id
+                            _id: user[0]._id
                         }, process.env.JWT_KEY, {
                             expiresIn: '2h'
                         });
@@ -79,7 +79,6 @@ class UserController {
                 });
             });
     };
-
 
     public editUser = (request, response ,next) => {
         User.find({_id: request.params.userId})

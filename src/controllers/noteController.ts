@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import * as jwt from 'jsonwebtoken';
 import Note from '../models/note';
 
 class NoteController {
@@ -49,10 +50,13 @@ class NoteController {
     };
 
     public addNote = (request, response ,next) => {
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
         const note = new Note({
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
             content: request.body.content,
+            userId: request.userData._id
         });
         note.save()
             .then(result => {
@@ -66,7 +70,12 @@ class NoteController {
     };
 
     public editNote = (request, response ,next) => {
-        Note.find({_id: request.params.noteId})
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Note.find({
+            _id: request.params.noteId,
+            userId: request.userData._id
+        })
             .exec()
             .then(note => {
                 if (note.length === 0) {
@@ -95,7 +104,12 @@ class NoteController {
     };
 
     public removeNote = (request, response ,next) => {
-        Note.find({_id: request.params.noteId})
+        const token = request.headers.authorization.split(" ")[1];
+        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        Note.find({
+            _id: request.params.noteId,
+            userId: request.userData._id
+        })
             .exec()
             .then(note => {
                 if (note.length === 0) {

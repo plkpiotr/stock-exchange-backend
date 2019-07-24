@@ -3,4 +3,4 @@ Backend:
 - `nodemon` to real time running backend on localhost:8080 in development mode
 
 To do:
-- Create history of transactions (all methods)
+- Create kind of `swagger` documentation

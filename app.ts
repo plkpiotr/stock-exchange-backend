@@ -22,7 +22,7 @@ class App {
 
         this.app.use((request, response, next): void => {
             response.header('Access-Control-Allow-Origin', '*');
-            response.header('Access-Control-Allow-Headers', 'Authorization');
+            response.header('Access-Control-Allow-Headers', 'Content-Type');
             next();
         });
 

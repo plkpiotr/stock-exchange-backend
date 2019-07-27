@@ -6,7 +6,10 @@ const articleSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    description: String,
+    description: {
+        type: String,
+        required: true,
+    },
     link:  {
         type: String,
         required: true,

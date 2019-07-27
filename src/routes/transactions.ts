@@ -7,9 +7,9 @@ class Transactions {
     public router: express.Router = Router();
 
     public constructor() {
-        this.router.get('/:transactionId', authenticator, TransactionController.getTransactionById);
+        this.router.get('/:transactionId', authenticator, TransactionController.getTransaction);
 
-        this.router.get('/', authenticator, TransactionController.getTransactionsByUser);
+        this.router.get('/', authenticator, TransactionController.getTransactions);
 
         this.router.post('/', authenticator, TransactionController.addTransaction);
 

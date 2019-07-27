@@ -7,9 +7,9 @@ class Notes {
     public router: express.Router = Router();
 
     public constructor() {
-        this.router.get('/:noteId', authenticator, NoteController.getNoteById);
+        this.router.get('/:noteId', authenticator, NoteController.getNote);
 
-        this.router.get('/', authenticator, NoteController.getNotesByUser);
+        this.router.get('/', authenticator, NoteController.getNotes);
 
         this.router.post('/', authenticator, NoteController.addNote);
 

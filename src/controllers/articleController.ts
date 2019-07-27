@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import Article from '../models/article';
 
 class ArticleController {
-    public getArticleById = (request, response) => {
+    public getArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({
@@ -26,7 +26,7 @@ class ArticleController {
             });
     };
 
-    public getArticlesByUser = (request, response) => {
+    public getArticles = (request, response) => {
         Article.find({
             userId: request.userData._id,
         })

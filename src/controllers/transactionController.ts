@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import Transaction from '../models/transaction';
 
 class TransactionController {
-    public getTransactionById = (request, response) => {
+    public getTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.find({
@@ -26,7 +26,7 @@ class TransactionController {
             });
     };
 
-    public getTransactionsByUser = (request, response) => {
+    public getTransactions = (request, response) => {
         const query = {
             userId: request.userData._id
         };

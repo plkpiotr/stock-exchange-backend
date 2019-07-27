@@ -7,9 +7,9 @@ class Articles {
     public router: express.Router = Router();
 
     public constructor() {
-        this.router.get('/:articleId', authenticator, ArticleController.getArticleById);
+        this.router.get('/:articleId', authenticator, ArticleController.getArticle);
 
-        this.router.get('/', authenticator, ArticleController.getArticlesByUser);
+        this.router.get('/', authenticator, ArticleController.getArticles);
 
         this.router.post('/', authenticator, ArticleController.addArticle);
 

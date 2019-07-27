@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import Note from '../models/note';
 
 class NoteController {
-    public getNoteById = (request, response) => {
+    public getNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
@@ -26,7 +26,7 @@ class NoteController {
             });
     };
 
-    public getNotesByUser = (request, response) => {
+    public getNotes = (request, response) => {
         Note.find({
             userId: request.userData._id,
         })
@@ -52,7 +52,7 @@ class NoteController {
         const note = new Note({
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
-            content: request.body.content,
+            description: request.body.description,
             userId: request.userData._id,
         });
         note.save()
@@ -81,7 +81,7 @@ class NoteController {
                     Note.update({_id: request.params.noteId}, {
                         $set: {
                             title: request.body.title,
-                            content: request.body.content,
+                            description: request.body.description,
                             modified: Date.now(),
                         }
                     })

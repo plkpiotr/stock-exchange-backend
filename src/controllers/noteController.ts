@@ -26,16 +26,9 @@ class NoteController {
             });
     };
 
-    public getNotesByUserId = (request, response) => {
-        const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
-        if (request.userData._id !== request.params.userId) {
-            return response.status(401).json({
-                message: 'You don\'t have access to this resource'
-            });
-        }
+    public getNotesByUser = (request, response) => {
         const query = {
-            userId: request.params.userId
+            userId: request.userData._id
         };
         Note.find(query)
             .select('-__v')

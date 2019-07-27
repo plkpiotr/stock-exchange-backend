@@ -63,6 +63,7 @@ class UserController {
                         });
                         return response.status(200).json({
                             message: 'Authorization successful',
+                            _id: user[0]._id,
                             token: token
                         });
                     }

@@ -26,16 +26,9 @@ class ArticleController {
             });
     };
 
-    public getArticlesByUserId = (request, response) => {
-        const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
-        if (request.userData._id !== request.params.userId) {
-            return response.status(401).json({
-                message: 'You don\'t have access to this resource'
-            });
-        }
+    public getArticlesByUser = (request, response) => {
         const query = {
-            userId: request.params.userId
+            userId: request.userData._id
         };
         Article.find(query)
             .select('-__v')

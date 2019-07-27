@@ -9,7 +9,7 @@ class Transactions {
     public constructor() {
         this.router.get('/:transactionId', authenticator, TransactionController.getTransactionById);
 
-        this.router.get('/user/:userId', authenticator, TransactionController.getTransactionsByUserId);
+        this.router.get('/', authenticator, TransactionController.getTransactionsByUser);
 
         this.router.post('/', authenticator, TransactionController.addTransaction);
 

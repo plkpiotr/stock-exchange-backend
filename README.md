@@ -4,3 +4,4 @@ Backend:
 
 To do:
 - Create kind of `swagger` documentation
+- Change service of lack of notes

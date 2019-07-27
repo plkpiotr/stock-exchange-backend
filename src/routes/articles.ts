@@ -9,7 +9,7 @@ class Articles {
     public constructor() {
         this.router.get('/:articleId', authenticator, ArticleController.getArticleById);
 
-        this.router.get('/user/:userId', authenticator, ArticleController.getArticlesByUserId);
+        this.router.get('/', authenticator, ArticleController.getArticlesByUser);
 
         this.router.post('/', authenticator, ArticleController.addArticle);
 

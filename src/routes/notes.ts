@@ -9,7 +9,7 @@ class Notes {
     public constructor() {
         this.router.get('/:noteId', authenticator, NoteController.getNoteById);
 
-        this.router.get('/user/:userId', authenticator, NoteController.getNotesByUserId);
+        this.router.get('/', authenticator, NoteController.getNotesByUser);
 
         this.router.post('/', authenticator, NoteController.addNote);
 

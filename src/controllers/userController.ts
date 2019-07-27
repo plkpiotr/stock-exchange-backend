@@ -5,12 +5,14 @@ import User from '../models/user';
 
 class UserController {
     public register = (request, response) => {
-        User.find({email: request.body.email})
+        User.find({
+            email: request.body.email,
+        })
             .exec()
             .then(user => {
                 if (user.length >= 1) {
                     return response.status(409).json({
-                        message: 'Such email has already exists'
+                        message: 'Such email has already exists',
                     });
                 } else {
                     bcrypt.hash(request.body.password, 10, (error, hash) => {
@@ -21,7 +23,7 @@ class UserController {
                                 _id: new mongoose.Types.ObjectId(),
                                 email: request.body.email,
                                 password: hash,
-                                name: request.body.name
+                                name: request.body.name,
                             });
                             user.save()
                                 .then(() => {
@@ -31,7 +33,7 @@ class UserController {
                                 })
                                 .catch(error => {
                                     response.status(500).json({
-                                        error: error
+                                        error: error,
                                     });
                                 });
                         }
@@ -41,30 +43,31 @@ class UserController {
     };
 
     public login = (request, response) => {
-        User.find({email: request.body.email})
+        User.find({
+            email: request.body.email,
+        })
             .exec()
             .then(user => {
                 if (user.length < 1) {
                     return response.status(404).json({
-                        message: 'Such user doesn\'t exists'
+                        message: 'Such user doesn\'t exists',
                     });
                 }
                 bcrypt.compare(request.body.password, user[0].password, (error, result) => {
                     if (error) {
                         return response.status(401).json({
-                            message: 'Authorization failed'
+                            message: 'Authorization failed',
                         });
                     }
                     if (result) {
                         const token = jwt.sign({
-                            _id: user[0]._id
+                            _id: user[0]._id,
                         }, process.env.JWT_KEY, {
-                            expiresIn: '2h'
+                            expiresIn: '2h',
                         });
                         return response.status(200).json({
                             message: 'Authorization successful',
-                            _id: user[0]._id,
-                            token: token
+                            token: token,
                         });
                     }
                     response.status(401).json({
@@ -78,12 +81,14 @@ class UserController {
     };
 
     public editUser = (request, response) => {
-        User.find({_id: request.params.userId})
+        User.find({
+            _id: request.params.userId,
+        })
             .exec()
             .then(user => {
                 if (user.length === 0) {
                     return response.status(404).json({
-                        message: 'Such user doesn\'t exists'
+                        message: 'Such user doesn\'t exists',
                     });
                 } else {
                     bcrypt.hash(request.body.password, 10, (error, hash) => {
@@ -94,7 +99,7 @@ class UserController {
                                 $set: {
                                     email: request.body.email,
                                     password: hash,
-                                    name: request.body.name
+                                    name: request.body.name,
                                 }
                             })
                                 .exec()
@@ -111,19 +116,21 @@ class UserController {
     };
 
     public removeUser = (request, response) => {
-        User.find({_id: request.params.userId})
+        User.find({
+            _id: request.params.userId,
+        })
             .exec()
             .then(user => {
                 if (user.length === 0) {
                     return response.status(404).json({
-                        message: 'Such user doesn\'t exists'
+                        message: 'Such user doesn\'t exists',
                     });
                 } else {
                     User.deleteOne({_id: request.params.userId})
                         .exec()
                         .then(() => {
                             response.status(200).json({
-                                message: 'User deleted'
+                                message: 'User deleted',
                             });
                         })
                         .catch(error => {

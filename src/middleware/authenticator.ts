@@ -7,7 +7,7 @@ export default (request, response, next) => {
         next();
     } catch (error) {
         return response.status(401).json({
-            message: 'You don\'t have access to this resource'
+            message: 'You don\'t have access to this resource',
         });
     }
 }

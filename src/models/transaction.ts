@@ -4,20 +4,20 @@ const transactionSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     datePurchase: {
         type: Date,
-        require: true
+        require: true,
     },
     pricePurchase: {
         type: Number,
-        require: true
+        require: true,
     },
     dateSale: Date,
     priceSale: Number,
     created: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     modified: Date,
-    userId: mongoose.Schema.Types.ObjectId
+    userId: mongoose.Schema.Types.ObjectId,
 });
 
 export default mongoose.model('Transaction', transactionSchema);

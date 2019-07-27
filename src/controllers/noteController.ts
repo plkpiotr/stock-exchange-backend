@@ -8,7 +8,7 @@ class NoteController {
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,
-            userId: request.userData._id
+            userId: request.userData._id,
         })
             .select('-__v')
             .exec()
@@ -17,7 +17,7 @@ class NoteController {
                     response.status(200).json(note);
                 } else {
                     response.status(404).json({
-                        message: 'Such note doesn\'t exists'
+                        message: 'Such note doesn\'t exists',
                     });
                 }
             })
@@ -27,10 +27,9 @@ class NoteController {
     };
 
     public getNotesByUser = (request, response) => {
-        const query = {
-            userId: request.userData._id
-        };
-        Note.find(query)
+        Note.find({
+            userId: request.userData._id,
+        })
             .select('-__v')
             .exec()
             .then(notes => {
@@ -38,7 +37,7 @@ class NoteController {
                     response.status(200).json(notes);
                 } else {
                     response.status(404).json({
-                        message: 'Not found any notes'
+                        message: 'Not found any notes',
                     });
                 }
             })
@@ -54,7 +53,7 @@ class NoteController {
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
             content: request.body.content,
-            userId: request.userData._id
+            userId: request.userData._id,
         });
         note.save()
             .then(() => {
@@ -70,20 +69,20 @@ class NoteController {
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,
-            userId: request.userData._id
+            userId: request.userData._id,
         })
             .exec()
             .then(note => {
                 if (note.length === 0) {
                     return response.status(404).json({
-                        message: 'Such note doesn\'t exists'
+                        message: 'Such note doesn\'t exists',
                     });
                 } else {
                     Note.update({_id: request.params.noteId}, {
                         $set: {
                             title: request.body.title,
                             content: request.body.content,
-                            modified: Date.now()
+                            modified: Date.now(),
                         }
                     })
                         .exec()
@@ -102,20 +101,20 @@ class NoteController {
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Note.find({
             _id: request.params.noteId,
-            userId: request.userData._id
+            userId: request.userData._id,
         })
             .exec()
             .then(note => {
                 if (note.length === 0) {
                     return response.status(404).json({
-                        message: 'Such note doesn\'t exists'
+                        message: 'Such note doesn\'t exists',
                     });
                 } else {
                     Note.deleteOne({_id: request.params.noteId})
                         .exec()
                         .then(() => {
                             response.status(200).json({
-                                message: 'Note deleted'
+                                message: 'Note deleted',
                             });
                         })
                         .catch(error => {

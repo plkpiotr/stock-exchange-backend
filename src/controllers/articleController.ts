@@ -6,7 +6,7 @@ class ArticleController {
     public getArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Article.find({
+        Article.findOne({
             _id: request.params.articleId,
             userId: request.userData._id,
         })

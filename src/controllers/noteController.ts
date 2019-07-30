@@ -6,7 +6,7 @@ class NoteController {
     public getNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Note.find({
+        Note.findOne({
             _id: request.params.noteId,
             userId: request.userData._id,
         })

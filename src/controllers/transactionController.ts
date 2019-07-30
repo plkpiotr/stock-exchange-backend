@@ -6,7 +6,7 @@ class TransactionController {
     public getTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Transaction.find({
+        Transaction.findOne({
             _id: request.params.transactionId,
             userId: request.userData._id
         })

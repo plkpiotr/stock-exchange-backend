@@ -23,6 +23,7 @@ class App {
         this.app.use((request, response, next): void => {
             response.header('Access-Control-Allow-Origin', '*');
             response.header('Access-Control-Allow-Headers', '*');
+            response.header('Access-Control-Allow-Methods', '*');
             next();
         });
 

@@ -8,21 +8,19 @@ To do:
 - Delete user with all his items
 
 User:
-
-`/users/:userId` -> PUT, DELETE
-`/users/register` -> POST
-`/users/login` -> POST
+- `/users/:userId` -> PUT, DELETE
+- `/users/register` -> POST
+- `/users/login` -> POST
 
 Article:
-
-`/articles` -> GET, POST
-`/articles/:articleId` -> GET, PUT, DELETE
+- `/articles` -> GET, POST
+- `/articles/:articleId` -> GET, PUT, DELETE
 
 Note:
-`/notes` -> GET, POST
-`/notes/:noteId` -> GET, PUT, DELETE
+- `/notes` -> GET, POST
+- `/notes/:noteId` -> GET, PUT, DELETE
 
 Transaction:
-`/transactions` -> GET, POST
-`/transactions/:transactionId` -> GET, PUT, DELETE
+- `/transactions` -> GET, POST
+- `/transactions/:transactionId` -> GET, PUT, DELETE
 ```

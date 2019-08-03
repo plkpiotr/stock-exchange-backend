@@ -7,20 +7,13 @@ To do:
 - Change service of lack of notes (`404` or `401`)
 - Delete user with all his items
 
-User:
-- `/users/:userId` -> PUT, DELETE
-- `/users/register` -> POST
-- `/users/login` -> POST
-
-Article:
-- `/articles` -> GET, POST
-- `/articles/:articleId` -> GET, PUT, DELETE
-
-Note:
-- `/notes` -> GET, POST
-- `/notes/:noteId` -> GET, PUT, DELETE
-
-Transaction:
-- `/transactions` -> GET, POST
-- `/transactions/:transactionId` -> GET, PUT, DELETE
-```
+API:
+- `/users/register` -> `POST`
+- `/users/login` -> `POST`
+- `/users/:id` -> `PUT`, `DELETE` (token)
+- `/articles` -> `GET`, `POST` (token)
+- `/articles/:id` -> `GET`, `PUT`, `DELETE` (token)
+- `/notes` -> `GET`, `POST` (token)
+- `/notes/:id` -> `GET`, `PUT`, `DELETE` (token)
+- `/transactions` -> `GET`, `POST` (token)
+- `/transactions/:id` -> `GET`, `PUT`, `DELETE` (token)

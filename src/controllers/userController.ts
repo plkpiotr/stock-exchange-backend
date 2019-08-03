@@ -23,7 +23,6 @@ class UserController {
                                 _id: new mongoose.Types.ObjectId(),
                                 email: request.body.email,
                                 password: hash,
-                                name: request.body.name,
                             });
                             user.save()
                                 .then(() => {
@@ -99,7 +98,6 @@ class UserController {
                                 $set: {
                                     email: request.body.email,
                                     password: hash,
-                                    name: request.body.name,
                                 }
                             })
                                 .exec()

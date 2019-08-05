@@ -15,7 +15,7 @@ class Transactions {
 
         this.router.put('/:transactionId', authenticator, TransactionController.editTransaction);
 
-        this.router.delete('/:transactionId', authenticator, TransactionController.removeTransaction);
+        this.router.delete('/:transactionId', authenticator, TransactionController.deleteTransaction);
     }
 }
 

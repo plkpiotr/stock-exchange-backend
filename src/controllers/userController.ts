@@ -113,7 +113,7 @@ class UserController {
             });
     };
 
-    public removeUser = (request, response) => {
+    public deleteUser = (request, response) => {
         User.find({
             _id: request.params.userId,
         })

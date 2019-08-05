@@ -79,7 +79,15 @@ class ArticleController {
                         message: 'Such article doesn\'t exists',
                     });
                 } else {
-                    Article.update({_id: request.params.articleId}, {
+                    const article = new Article({
+                        _id: request.params.noteId,
+                        userId: request.userData._id,
+                        title: request.body.title,
+                        description: request.body.description,
+                        link: request.body.link,
+                        modified: Date.now(),
+                    });
+                    Article.updateOne({_id: request.params.articleId}, {
                         $set: {
                             title: request.body.title,
                             description: request.body.description,
@@ -88,8 +96,8 @@ class ArticleController {
                         }
                     })
                         .exec()
-                        .then(result => {
-                            response.status(200).json(result);
+                        .then(() => {
+                            response.status(200).json(article);
                         })
                         .catch(error => {
                             response.status(500).json(error);
@@ -98,7 +106,7 @@ class ArticleController {
             });
     };
 
-    public removeArticle = (request, response) => {
+    public deleteArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Article.find({

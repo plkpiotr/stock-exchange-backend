@@ -15,7 +15,7 @@ class Notes {
 
         this.router.put('/:noteId', authenticator, NoteController.editNote);
 
-        this.router.delete('/:noteId', authenticator, NoteController.removeNote);
+        this.router.delete('/:noteId', authenticator, NoteController.deleteNote);
     }
 }
 

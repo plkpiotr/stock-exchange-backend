@@ -13,7 +13,7 @@ class Users {
 
         this.router.put('/:userId', authenticator, UserController.editUser);
 
-        this.router.delete('/:userId', authenticator, UserController.removeUser);
+        this.router.delete('/:userId', authenticator, UserController.deleteUser);
     }
 }
 

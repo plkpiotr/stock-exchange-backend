@@ -15,7 +15,7 @@ class Articles {
 
         this.router.put('/:articleId', authenticator, ArticleController.editArticle);
 
-        this.router.delete('/:articleId', authenticator, ArticleController.removeArticle);
+        this.router.delete('/:articleId', authenticator, ArticleController.deleteArticle);
     }
 }
 

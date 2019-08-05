@@ -101,7 +101,7 @@ class TransactionController {
             });
     };
 
-    public removeTransaction = (request, response) => {
+    public deleteTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.find({

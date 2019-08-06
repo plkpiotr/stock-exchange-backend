@@ -80,7 +80,7 @@ class ArticleController {
                     });
                 } else {
                     const article = new Article({
-                        _id: request.params.noteId,
+                        _id: request.params.articleId,
                         userId: request.userData._id,
                         title: request.body.title,
                         description: request.body.description,

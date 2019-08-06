@@ -81,18 +81,27 @@ class TransactionController {
                         message: 'Such transaction doesn\'t exists'
                     });
                 } else {
+                    const transaction = new Transaction({
+                        _id: request.params.transactionId,
+                        userId: request.userData._id,
+                        datePurchase: request.body.datePurchase,
+                        pricePurchase: request.body.pricePurchase,
+                        dateSale: request.body.dateSale,
+                        priceSale: request.body.priceSale,
+                        modified: Date.now(),
+                    });
                     Transaction.update({_id: request.params.transactionId}, {
                         $set: {
                             datePurchase: request.body.datePurchase,
                             pricePurchase: request.body.pricePurchase,
                             dateSale: request.body.dateSale,
                             priceSale: request.body.priceSale,
-                            modified: Date.now()
+                            modified: Date.now(),
                         }
                     })
                         .exec()
-                        .then(result => {
-                            response.status(200).json(result);
+                        .then(() => {
+                            response.status(200).json(transaction);
                         })
                         .catch(error => {
                             response.status(500).json(error);

@@ -1,15 +1,12 @@
 Backend:
 - `npm start` or `ts-node server.ts` to run backend on localhost:8080
-- `nodemon` to real time running backend on localhost:8080 in development mode
-
-Very important:
-- Refactoring for `articleController` and `noteController`
-- Prepare `transactionController` on the basis of above classes
+- `nodemon` to run backend on localhost:8080 (reload after changes in source code)
 
 To do:
-- Create kind of `swagger` documentation
+- Refactoring edit methods
+- Create kind of `swagger` documentation with example responses
 - Change service of lack of notes (`404` or `401`)
-- Delete user with all his items
+- Add possibility to delete user with all his items
 
 API:
 - `/users/register` -> `POST`

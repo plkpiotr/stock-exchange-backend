@@ -68,42 +68,19 @@ class ArticleController {
     public editArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Article.find({
+        Article.findOneAndUpdate({
             _id: request.params.articleId,
-            userId: request.userData._id,
-        })
-            .exec()
-            .then(article => {
-                if (article.length === 0) {
-                    return response.status(404).json({
-                        message: 'Such article doesn\'t exists',
-                    });
-                } else {
-                    const article = new Article({
-                        _id: request.params.articleId,
-                        userId: request.userData._id,
-                        title: request.body.title,
-                        description: request.body.description,
-                        link: request.body.link,
-                        modified: Date.now(),
-                    });
-                    Article.updateOne({_id: request.params.articleId}, {
-                        $set: {
-                            title: request.body.title,
-                            description: request.body.description,
-                            link: request.body.link,
-                            modified: Date.now(),
-                        }
-                    })
-                        .exec()
-                        .then(() => {
-                            response.status(200).json(article);
-                        })
-                        .catch(error => {
-                            response.status(500).json(error);
-                        });
-                }
-            });
+            userId: request.userData._id}, {
+            title: request.body.title,
+            description: request.body.description,
+            link: request.body.link,
+            modified: Date.now(),
+        }, {new: true}, (error, article) => {
+            if (error) {
+                response.send(error);
+            }
+            response.json(article);
+        });
     };
 
     public deleteArticle = (request, response) => {

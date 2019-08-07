@@ -67,40 +67,18 @@ class NoteController {
     public editNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Note.find({
+        Note.findOneAndUpdate({
             _id: request.params.noteId,
-            userId: request.userData._id,
-        })
-            .exec()
-            .then(note => {
-                if (note.length === 0) {
-                    return response.status(404).json({
-                        message: 'Such note doesn\'t exists',
-                    });
-                } else {
-                    const note = new Note({
-                        _id: request.params.noteId,
-                        userId: request.userData._id,
-                        title: request.body.title,
-                        description: request.body.description,
-                        modified: Date.now(),
-                    });
-                    Note.updateOne({_id: request.params.noteId}, {
-                        $set: {
-                            title: request.body.title,
-                            description: request.body.description,
-                            modified: Date.now(),
-                        }
-                    })
-                        .exec()
-                        .then(() => {
-                            response.status(200).json(note);
-                        })
-                        .catch(error =>
-                            response.status(500).json(error)
-                        );
-                }
-            });
+            userId: request.userData._id}, {
+            title: request.body.title,
+            description: request.body.description,
+            modified: Date.now(),
+        }, {new: true}, (error, note) => {
+            if (error) {
+                response.send(error);
+            }
+            response.json(note);
+        });
     };
 
     public deleteNote = (request, response) => {

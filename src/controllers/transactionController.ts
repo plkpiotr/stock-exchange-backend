@@ -8,7 +8,7 @@ class TransactionController {
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         Transaction.findOne({
             _id: request.params.transactionId,
-            userId: request.userData._id
+            userId: request.userData._id,
         })
             .select('-__v')
             .exec()
@@ -56,7 +56,7 @@ class TransactionController {
             pricePurchase: request.body.pricePurchase,
             dateSale: request.body.dateSale,
             priceSale: request.body.priceSale,
-            userId: request.userData._id
+            userId: request.userData._id,
         });
         transaction.save()
             .then(() => {
@@ -70,44 +70,20 @@ class TransactionController {
     public editTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
         request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Transaction.find({
+        Transaction.findOneAndUpdate({
             _id: request.params.transactionId,
-            userId: request.userData._id
-        })
-            .exec()
-            .then(transaction => {
-                if (transaction.length === 0) {
-                    return response.status(404).json({
-                        message: 'Such transaction doesn\'t exists'
-                    });
-                } else {
-                    const transaction = new Transaction({
-                        _id: request.params.transactionId,
-                        userId: request.userData._id,
-                        datePurchase: request.body.datePurchase,
-                        pricePurchase: request.body.pricePurchase,
-                        dateSale: request.body.dateSale,
-                        priceSale: request.body.priceSale,
-                        modified: Date.now(),
-                    });
-                    Transaction.update({_id: request.params.transactionId}, {
-                        $set: {
-                            datePurchase: request.body.datePurchase,
-                            pricePurchase: request.body.pricePurchase,
-                            dateSale: request.body.dateSale,
-                            priceSale: request.body.priceSale,
-                            modified: Date.now(),
-                        }
-                    })
-                        .exec()
-                        .then(() => {
-                            response.status(200).json(transaction);
-                        })
-                        .catch(error => {
-                            response.status(500).json(error);
-                        });
-                }
-            });
+            userId: request.userData._id}, {
+            datePurchase: request.body.datePurchase,
+            pricePurchase: request.body.pricePurchase,
+            dateSale: request.body.dateSale,
+            priceSale: request.body.priceSale,
+            modified: Date.now(),
+        }, {new: true}, (error, transaction) => {
+            if (error) {
+                response.send(error);
+            }
+            response.json(transaction);
+        });
     };
 
     public deleteTransaction = (request, response) => {

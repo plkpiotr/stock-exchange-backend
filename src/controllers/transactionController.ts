@@ -3,34 +3,10 @@ import * as jwt from 'jsonwebtoken';
 import Transaction from '../models/transaction';
 
 class TransactionController {
-    public getTransaction = (request, response) => {
-        const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Transaction.findOne({
-            _id: request.params.transactionId,
-            userId: request.userData._id,
-        })
-            .select('-__v')
-            .exec()
-            .then(transaction => {
-                if (transaction) {
-                    response.status(200).json(transaction);
-                } else {
-                    response.status(404).json({
-                        message: 'Such transaction doesn\'t exists'
-                    });
-                }
-            })
-            .catch(error => {
-                response.status(500).json(error);
-            });
-    };
-
     public getTransactions = (request, response) => {
-        const query = {
+        Transaction.find({
             userId: request.userData._id
-        };
-        Transaction.find(query)
+        })
             .select('-__v')
             .exec()
             .then(transaction => {
@@ -52,6 +28,7 @@ class TransactionController {
         request.userData = jwt.verify(token, process.env.JWT_KEY);
         const transaction = new Transaction({
             _id: new mongoose.Types.ObjectId(),
+            symbol: request.body.symbol,
             datePurchase: request.body.datePurchase,
             pricePurchase: request.body.pricePurchase,
             dateSale: request.body.dateSale,
@@ -65,25 +42,6 @@ class TransactionController {
             .catch(error => {
                 response.status(500).json(error);
             });
-    };
-
-    public editTransaction = (request, response) => {
-        const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
-        Transaction.findOneAndUpdate({
-            _id: request.params.transactionId,
-            userId: request.userData._id}, {
-            datePurchase: request.body.datePurchase,
-            pricePurchase: request.body.pricePurchase,
-            dateSale: request.body.dateSale,
-            priceSale: request.body.priceSale,
-            modified: Date.now(),
-        }, {new: true}, (error, transaction) => {
-            if (error) {
-                response.send(error);
-            }
-            response.json(transaction);
-        });
     };
 
     public deleteTransaction = (request, response) => {

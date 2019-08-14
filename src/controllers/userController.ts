@@ -94,7 +94,7 @@ class UserController {
                         if (error) {
                             return response.status(500).json({error});
                         } else {
-                            User.update({_id: request.params.articleId}, {
+                            User.updateOne({_id: request.params.articleId}, {
                                 $set: {
                                     email: request.body.email,
                                     password: hash,

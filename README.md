@@ -3,9 +3,9 @@ Backend:
 - `nodemon` to run backend on localhost:8080 (reload after changes in source code)
 
 To do:
-- Refactoring edit methods
+- Refactoring edit method for user!
 - Create kind of `swagger` documentation with example responses
-- Change service of lack of notes (`404` or `401`)
+- Change service of lack of notes/articles/transactions (`404` or `401`)
 - Add possibility to delete user with all his items
 
 API:
@@ -17,4 +17,4 @@ API:
 - `/notes` -> `GET`, `POST` (token)
 - `/notes/:id` -> `GET`, `PUT`, `DELETE` (token)
 - `/transactions` -> `GET`, `POST` (token)
-- `/transactions/:id` -> `GET`, `PUT`, `DELETE` (token)
+- `/transactions/:id` -> `DELETE` (token)

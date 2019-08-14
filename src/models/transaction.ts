@@ -2,6 +2,10 @@ import * as mongoose from 'mongoose';
 
 const transactionSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    symbol: {
+        type: String,
+        required: true,
+    },
     datePurchase: {
         type: Date,
         require: true,
@@ -12,11 +16,6 @@ const transactionSchema = mongoose.Schema({
     },
     dateSale: Date,
     priceSale: Number,
-    created: {
-        type: Date,
-        default: Date.now,
-    },
-    modified: Date,
     userId: mongoose.Schema.Types.ObjectId,
 });
 

@@ -5,7 +5,6 @@ Backend:
 To do:
 - Refactoring edit method for user!
 - Create kind of `swagger` documentation with example responses
-- Change service of lack of notes/articles/transactions (`404` or `401`)
 - Add possibility to delete user with all his items
 
 API:

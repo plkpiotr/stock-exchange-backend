@@ -14,8 +14,14 @@ const transactionSchema = mongoose.Schema({
         type: Number,
         require: true,
     },
-    dateSale: Date,
-    priceSale: Number,
+    dateSale: {
+        type: Date,
+        require: true,
+    },
+    priceSale: {
+        type: Number,
+        require: true,
+    },
     userId: mongoose.Schema.Types.ObjectId,
 });
 

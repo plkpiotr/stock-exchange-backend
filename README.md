@@ -1,9 +1,9 @@
 Backend:
+- `npm i` to install packages
 - `npm start` or `ts-node server.ts` to run backend on localhost:8080
-- `nodemon` to run backend on localhost:8080 (reload after changes in source code)
+- `nodemon` to run backend on localhost:8080 (reloading after changes in the source code)
 
 To do:
-- Refactoring edit method for user!
 - Create kind of `swagger` documentation with example responses
 - Add possibility to delete user with all his items
 

@@ -6,20 +6,16 @@ const transactionSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    datePurchase: {
+    date: {
         type: Date,
         require: true,
     },
-    pricePurchase: {
+    price: {
         type: Number,
         require: true,
     },
-    dateSale: {
-        type: Date,
-        require: true,
-    },
-    priceSale: {
-        type: Number,
+    comment: {
+        type: String,
         require: true,
     },
     userId: mongoose.Schema.Types.ObjectId,

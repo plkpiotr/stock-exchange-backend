@@ -29,10 +29,9 @@ class TransactionController {
         const transaction = new Transaction({
             _id: new mongoose.Types.ObjectId(),
             symbol: request.body.symbol,
-            datePurchase: request.body.datePurchase,
-            pricePurchase: request.body.pricePurchase,
-            dateSale: request.body.dateSale,
-            priceSale: request.body.priceSale,
+            date: request.body.date,
+            price: request.body.price,
+            comment: request.body.comment,
             userId: request.userData._id,
         });
         transaction.save()

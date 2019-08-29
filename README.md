@@ -10,10 +10,12 @@ To do:
 API:
 - `/users/register` -> `POST`
 - `/users/login` -> `POST`
-- `/users/:id` -> `PUT`, `DELETE` (token)
 - `/articles` -> `GET`, `POST` (token)
 - `/articles/:id` -> `GET`, `PUT`, `DELETE` (token)
 - `/notes` -> `GET`, `POST` (token)
 - `/notes/:id` -> `GET`, `PUT`, `DELETE` (token)
 - `/transactions` -> `GET`, `POST` (token)
 - `/transactions/:id` -> `DELETE` (token)
+
+## License
+Copyright © 2019, [Piotr Pałka](https://github.com/plkpiotr). Released under the [MIT License](LICENSE).

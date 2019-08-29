@@ -78,65 +78,6 @@ class UserController {
                 response.status(500).json(error);
             });
     };
-
-    public editUser = (request, response) => {
-        User.find({
-            _id: request.params.userId,
-        })
-            .exec()
-            .then(user => {
-                if (user.length === 0) {
-                    return response.status(404).json({
-                        message: 'Such user doesn\'t exists',
-                    });
-                } else {
-                    bcrypt.hash(request.body.password, 10, (error, hash) => {
-                        if (error) {
-                            return response.status(500).json({error});
-                        } else {
-                            User.updateOne({_id: request.params.userId}, {
-                                $set: {
-                                    email: request.body.email,
-                                    password: hash,
-                                }
-                            })
-                                .exec()
-                                .then(result => {
-                                    response.status(200).json(result);
-                                })
-                                .catch(error => {
-                                    response.status(500).json(error);
-                                });
-                        }
-                    });
-                }
-            });
-    };
-
-    public deleteUser = (request, response) => {
-        User.find({
-            _id: request.params.userId,
-        })
-            .exec()
-            .then(user => {
-                if (user.length === 0) {
-                    return response.status(404).json({
-                        message: 'Such user doesn\'t exists',
-                    });
-                } else {
-                    User.deleteOne({_id: request.params.userId})
-                        .exec()
-                        .then(() => {
-                            response.status(200).json({
-                                message: 'User deleted',
-                            });
-                        })
-                        .catch(error => {
-                            response.status(500).json({error});
-                        });
-                }
-            });
-    };
 }
 
 export default new UserController();

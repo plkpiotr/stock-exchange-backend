@@ -75,9 +75,9 @@ class NoteController {
             modified: Date.now(),
         }, {new: true}, (error, note) => {
             if (error) {
-                response.send(error);
+                response.status(500).json(error);
             }
-            response.json(note);
+            response.status(200).json(note);
         });
     };
 

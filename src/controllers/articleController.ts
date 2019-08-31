@@ -77,9 +77,9 @@ class ArticleController {
             modified: Date.now(),
         }, {new: true}, (error, article) => {
             if (error) {
-                response.send(error);
+                response.status(500).json(error);
             }
-            response.json(article);
+            response.status(200).json(article);
         });
     };
 

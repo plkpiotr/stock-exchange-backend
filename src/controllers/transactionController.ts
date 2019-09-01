@@ -30,7 +30,7 @@ class TransactionController {
             _id: new mongoose.Types.ObjectId(),
             symbol: request.body.symbol,
             date: request.body.date,
-            price: request.body.price,
+            amount: request.body.amount,
             comment: request.body.comment,
             userId: request.userData._id,
         });

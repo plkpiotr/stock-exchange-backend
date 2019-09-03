@@ -34,8 +34,8 @@ class App {
     }
 
     private static configureDatabase(): void {
-        mongoose.connect('mongodb+srv://stock-exchange:'+ process.env.MONGO_ATLAS_PW +
-            '@stock-exchange-btfeh.mongodb.net/test?retryWrites=true&w=majority', {
+        mongoose.connect('mongodb+srv://stock-exchange:stock-exchange@stock-exchange-btfeh.mongodb.net/' +
+            'test?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useCreateIndex: true
         });

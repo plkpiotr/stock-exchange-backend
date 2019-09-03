@@ -1,7 +1,6 @@
 {
   "watch": ["**"],
   "env": {
-    "MONGO_ATLAS_PW": "stock-exchange",
     "JWT_KEY": "stock-exchange"
   },
   "ext": "ts",

@@ -1,7 +1,7 @@
 import * as express from 'express';
-import * as cors from 'cors';
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
+import * as cors from 'cors';
 import articleRoutes from './src/routes/articles';
 import noteRoutes from './src/routes/notes';
 import transactionRoutes from './src/routes/transactions';
@@ -16,12 +16,13 @@ class App {
     }
 
     private configure(): void {
+        this.app.use(cors());
+
         this.app.use(bodyParser.urlencoded({
             extended: false
         }));
         this.app.use(bodyParser.json());
 
-        this.app.use(cors());
 
         this.app.use('/articles', articleRoutes);
         this.app.use('/notes', noteRoutes);

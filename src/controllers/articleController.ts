@@ -5,7 +5,7 @@ import Article from '../models/article';
 class ArticleController {
     public getArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Article.findOne({
             _id: request.params.articleId,
             userId: request.userData._id,
@@ -48,7 +48,7 @@ class ArticleController {
 
     public addArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         const article = new Article({
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
@@ -67,7 +67,7 @@ class ArticleController {
 
     public editArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Article.findOneAndUpdate({
             _id: request.params.articleId,
             userId: request.userData._id}, {
@@ -85,7 +85,7 @@ class ArticleController {
 
     public deleteArticle = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Article.find({
             _id: request.params.articleId,
             userId: request.userData._id,

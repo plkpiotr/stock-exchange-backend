@@ -61,7 +61,7 @@ class UserController {
                     if (result) {
                         const token = jwt.sign({
                             _id: user[0]._id,
-                        }, process.env.JWT_KEY, {
+                        }, 'stock-exchange', {
                             expiresIn: '2h',
                         });
                         return response.status(200).json({

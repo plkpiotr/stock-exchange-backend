@@ -25,7 +25,7 @@ class TransactionController {
 
     public addTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         const transaction = new Transaction({
             _id: new mongoose.Types.ObjectId(),
             symbol: request.body.symbol,
@@ -45,7 +45,7 @@ class TransactionController {
 
     public deleteTransaction = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Transaction.find({
             _id: request.params.transactionId,
             userId: request.userData._id

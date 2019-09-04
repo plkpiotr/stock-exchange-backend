@@ -5,7 +5,7 @@ import Note from '../models/note';
 class NoteController {
     public getNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Note.findOne({
             _id: request.params.noteId,
             userId: request.userData._id,
@@ -48,7 +48,7 @@ class NoteController {
 
     public addNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         const note = new Note({
             _id: new mongoose.Types.ObjectId(),
             title: request.body.title,
@@ -66,7 +66,7 @@ class NoteController {
 
     public editNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Note.findOneAndUpdate({
             _id: request.params.noteId,
             userId: request.userData._id}, {
@@ -83,7 +83,7 @@ class NoteController {
 
     public deleteNote = (request, response) => {
         const token = request.headers.authorization.split(' ')[1];
-        request.userData = jwt.verify(token, process.env.JWT_KEY);
+        request.userData = jwt.verify(token, 'stock-exchange');
         Note.find({
             _id: request.params.noteId,
             userId: request.userData._id,

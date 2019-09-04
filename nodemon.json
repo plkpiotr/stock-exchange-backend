@@ -1,8 +1,0 @@
-{
-  "watch": ["**"],
-  "env": {
-    "JWT_KEY": "stock-exchange"
-  },
-  "ext": "ts",
-  "exec": "npm start"
-}

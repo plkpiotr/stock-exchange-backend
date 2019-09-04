@@ -23,7 +23,6 @@ class App {
         }));
         this.app.use(bodyParser.json());
 
-
         this.app.use('/articles', articleRoutes);
         this.app.use('/notes', noteRoutes);
         this.app.use('/transactions', transactionRoutes);

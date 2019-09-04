@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose';
 import articleRoutes from './src/routes/articles';
@@ -20,12 +21,8 @@ class App {
         }));
         this.app.use(bodyParser.json());
 
-        this.app.use((request, response, next): void => {
-            response.header('Access-Control-Allow-Origin', '*');
-            response.header('Access-Control-Allow-Headers', '*');
-            response.header('Access-Control-Allow-Methods', '*');
-            next();
-        });
+        this.app.use(cors());
+        this.app.options('*', cors());
 
         this.app.use('/articles', articleRoutes);
         this.app.use('/notes', noteRoutes);

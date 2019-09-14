@@ -77,38 +77,38 @@ Replace the connection string in `app.ts` with your own:
 
 |`/articles`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GET|&check;|&cross;|&cross;|&check;|&cross;|&check;|
-|POST|&cross;|&check;|&cross;|&cross;|&cross;|&check;|
+|GET|&check;|&cross;|&check;|&check;|&cross;|&check;|
+|POST|&cross;|&check;|&check;|&cross;|&cross;|&check;|
 
 |`/articles/:id`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GET|&check;|&cross;|&cross;|&check;|&cross;|&check;|
-|PUT|&check;|&cross;|&cross;|&cross;|&cross;|&check;|
-|DELETE|&check;|&cross;|&cross;|&check;|&cross;|&check;|
+|GET|&check;|&cross;|&check;|&check;|&cross;|&check;|
+|PUT|&check;|&cross;|&check;|&cross;|&cross;|&check;|
+|DELETE|&check;|&cross;|&check;|&check;|&cross;|&check;|
 
 ### Note*
 
 |`/notes`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GET|&check;|&cross;|&cross;|&check;|&cross;|&check;|
-|POST|&cross;|&check;|&cross;|&cross;|&cross;|&check;|
+|GET|&check;|&cross;|&check;|&check;|&cross;|&check;|
+|POST|&cross;|&check;|&check;|&cross;|&cross;|&check;|
 
 |`/notes/:id`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GET|&check;|&cross;|&cross;|&check;|&cross;|&check;|
-|PUT|&check;|&cross;|&cross;|&cross;|&cross;|&check;|
-|DELETE|&check;|&cross;|&cross;|&check;|&cross;|&check;|
+|GET|&check;|&cross;|&check;|&check;|&cross;|&check;|
+|PUT|&check;|&cross;|&check;|&cross;|&cross;|&check;|
+|DELETE|&check;|&cross;|&check;|&check;|&cross;|&check;|
 
 ### Transaction*
 
 |`/transactions`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|GET|&check;|&cross;|&cross;|&check;|&cross;|&check;|
-|POST|&cross;|&check;|&cross;|&cross;|&cross;|&check;|
+|GET|&check;|&cross;|&check;|&check;|&cross;|&check;|
+|POST|&cross;|&check;|&check;|&cross;|&cross;|&check;|
 
 |`/transactions/:id`|200|201|401|404|409|500|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|DELETE|&check;|&cross;|&cross;|&check;|&cross;|&check;|
+|DELETE|&check;|&cross;|&check;|&check;|&cross;|&check;|
 
 ### User
 
